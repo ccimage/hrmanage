@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>出错啦</title>
+  <include file="include/header" />
+</head>
+<body>
+
+<include file="include/toolbar" />
+
+<div class="am-cf admin-main">
+  <include file="include/sidemenu" />
+
+  <!-- content start -->
+  <div class="admin-content">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"> <small>服务器出现错误</small></div>
+    </div>
+
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <h3 class="am-text-xxxl am-margin-top-lg">错误信息:{$errormessage}</h3>
+        <p class="">您看到这个页面的原因可能是:
+          <ul>
+            <li>开发人员不仔细留下了bug，您可以联系管理员</li>
+            <li>输入了错误的浏览器地址</li>
+            <li><del>点击鼠标的姿势不对</del></li>
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- content end -->
+
+</div>
+
+<include file="include/footer" />
+<include file="include/includejs" />
+</body>
+</html>

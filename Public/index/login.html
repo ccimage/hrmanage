@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>登录 | {$Think.config.SITE_TITLE}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="alternate icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <style>
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 200%;
+      color: #333;
+      margin-top: 30px;
+    }
+    .header p {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="am-g">
+    <h1>Hi Help</h1>
+    <p><br/>道路救援 汽车服务 保养美容</p>
+  </div>
+  <hr />
+</div>
+<div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <form id="loginform" action="{:U('Login/login')}" method="post" class="am-form">
+      <label for="username">手机号:</label>
+      <input type="text" name="username" id="username" value="" placeholder="请输入手机号">
+      <br />
+      <label for="password">密码:</label>
+      <input type="password" name="password" id="password" value="" placeholder="请输入密码">
+      <br />
+      <label for="remember-me">
+        <input id="remember-me" type="checkbox" name="remember" value="1">
+        记住密码
+      </label>
+      <span style="float: right"><a href="#">忘记密码?</a></span>
+      <br />
+
+      <div class="am-cf">
+        <input type="submit" value="登 录" class="am-btn am-btn-primary" style="width:100%" onclick="return checkUserLogin();">
+      </div>
+    </form>
+    <include file="footer"/>
+  </div>
+</div>
+<script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/login.js"></script>
+</body>
+</html>

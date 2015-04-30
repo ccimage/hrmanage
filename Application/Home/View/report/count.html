@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$pagename}统计</title>
+    <include file="include/header" />
+    <link rel="stylesheet" href="__PUBLIC__/assets/css/amazeui.datetimepicker.css">
+</head>
+<body>
+
+<include file="include/toolbar" />
+
+<div class="am-cf admin-main">
+    <include file="include/sidemenu" />
+
+    <!-- content start -->
+    <div class="admin-content">
+
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><span>{$pagename}</span> / <small>counter</small></div>
+        </div>
+
+        <div class="am-g">
+        	<form class="am-form" method="post" action="{$selector|U}" enctype="multipart/form-data">
+				{$begindate|outputTextItem='开始日期','datetime','','begindate','',10,###,'datepicker1'}
+                {$enddate|outputTextItem='结束日期','datetime','','enddate','',10,###,'datepicker2'}                
+                <div class="am-margin">
+					<button type="submit" class="am-btn am-btn-primary am-btn-xs">搜索</button>
+				</div>
+                
+            </form>
+            <!-- 列表开始 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf">{$pagename}统计列表</div>
+                <div id="collapse-panel-2" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>迟到次数</th>
+                            <th>未打卡</th>
+                            <th>加班次数</th>
+							<th>刷卡人</th>
+                        </tr>
+                        <volist name="list" id="vo">
+                            <tr>
+                                <td class="am-text-center">{$i}</td>
+                                <td>{$vo.latecount}</td>
+                            	<td>{$vo.nocheckcount}</td>
+                                <td>{$vo.overtimecount}</td>
+								<td>{$vo.realname}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 列表结束 -->
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<include file="include/footer" />
+<include file="include/includejs" />
+<include file="include/datetimejs" />
+<script type="text/javascript">
+$(function() {
+    $('#datepicker1').datepicker({format: 'yyyy-mm-dd',language:'zh-CN',autoclose:true});
+    $('#datepicker2').datepicker({format: 'yyyy-mm-dd',language:'zh-CN',autoclose:true});
+})
+</script>
+</body>
+</html>

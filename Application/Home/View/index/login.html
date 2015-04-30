@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+  <meta charset="UTF-8">
+  <title>登录 | {$Think.config.SITE_TITLE}</title>
+  <include file="include/header" />
+  <style>
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 200%;
+      color: #333;
+      margin-top: 30px;
+    }
+    .header p {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="am-g">
+    <h1>Hi Help</h1>
+    <p><br/>道路救援 汽车服务 保养美容</p>
+  </div>
+  <hr />
+</div>
+<div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <form id="loginform" method="post" class="am-form" action="{:U('Login/login')}">
+      <label for="username">手机号:</label>
+      <input type="text" name="username" id="username" value="" placeholder="请输入手机号">
+      <br />
+      <label for="password">密码:</label>
+      <input type="password" name="password" id="password" value="" placeholder="请输入密码">
+      <br />
+      <label for="remember-me">
+        <input id="remember-me" type="checkbox" name="remember" value="1">
+        记住密码
+      </label>
+      <span style="float: right"><a href="#">忘记密码?</a></span>
+      <br />
+
+      <div class="am-cf">
+        <input type="submit" value="登 录" class="am-btn am-btn-primary" style="width:100%" onclick="return checkUserLogin();">
+      </div>
+    </form>
+    <include file="include/footer"/>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/login.js"></script>
+</body>
+</html>

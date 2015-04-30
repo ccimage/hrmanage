@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>时间管理</title>
+    <include file="include/header" />
+</head>
+<body>
+
+<include file="include/toolbar" />
+
+<div class="am-cf admin-main">
+    <include file="include/sidemenu" />
+
+    <!-- content start -->
+    <div class="admin-content">
+
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><span>时间段</span> / <small>time range</small></div>
+        </div>
+
+        <div class="am-g">
+            <form class="am-form" method="post" action="{:U('Time/addrange')}">
+                {$model['rangefrom']|outputTextItem='从','text','required','rangefrom','* 单位分钟,只能填数字',20,###}
+                {$model['rangeto']|outputTextItem='至','text','required','rangeto','* ',200,###}
+				{$rangeTypeList,$model['rangetype']|outputSelectItem='时间段用于',###,'rangetype',1}
+                <include file="include/formbottompart" />
+            </form>
+
+            <!-- 列表开始 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf">服务项目列表</div>
+                <div id="collapse-panel-2" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>从</th>
+                            <th>至</th>
+							<th>用于计算</th>
+                            <th>操作</th>
+                        </tr>
+                        <volist name="list" id="vo">
+                            <tr id="dataitem-{$vo.id}" <eq name="vo.id" value="$model.id">class="am-active"</eq>>
+                                <td class="am-text-center">{$i}</td>
+                                <td>{$vo.rangefrom}分钟</td>
+                                <td>{$vo.rangeto}分钟</td>
+								<td><if condition="$vo.rangetype eq 1" > 迟到
+									<else /> 加班
+								</if></td>
+                                <td>
+                                    <div class="am-dropdown  am-dropdown-up" data-am-dropdown>
+                                        <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+                                        <ul class="am-dropdown-content">
+                                            <li><a href="{$vo.id|P='Time/rangeedit/',###}">1. 编辑</a></li>
+                                            <li><a href="javascript:" onclick="comfirmDelete('{$vo.id}', '{$vo.id|P='Time/rangedelete/',###}')">2. 删除</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 列表结束 -->
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<include file="include/footer" />
+<include file="include/includejs" />
+<script type="text/javascript" src="__PUBLIC__/js/deleteitem.js"></script>
+</body>
+</html>

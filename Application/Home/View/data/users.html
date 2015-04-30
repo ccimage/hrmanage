@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+    <include file="include/header" />
+</head>
+<body>
+
+<include file="include/toolbar" />
+
+<div class="am-cf admin-main">
+    <include file="include/sidemenu" />
+
+    <!-- content start -->
+    <div class="admin-content">
+
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><span>用户</span> / <small>user</small></div>
+        </div>
+
+        <div class="am-g">
+            <form class="am-form" method="post" action="{:U('User/adduser')}">
+                <if condition="$op eq 'pwd'">
+                    <assign name="tempVal" value="readonly" />
+                </if>
+                {$model['workernum']|outputTextItem='工号','text','required '.$tempVal,'workernum','*',20,###}
+                <if condition="$op eq 'user'">
+                    <assign name="newVal" value="readonly" />
+                </if>
+
+                {$newVal|outputTextItem = '密码','password',###,'password','6位以上，强烈建议使用复杂密码',20}
+                {$newVal|outputTextItem = '重复密码','password',###,'passwordAgain','',20}
+
+                {$model['realname']|outputTextItem='姓名','text',$tempVal,'realname','',20,###}
+                
+            <include file="include/formbottompart" />
+            </form>
+
+            <!-- 列表开始 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf">用户列表</div>
+                <div id="collapse-panel-2" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>工号</th>
+                            <th>姓名</th>
+                            <th>操作</th>
+                        </tr>
+                        <volist name="list" id="vo">
+                            <tr id="dataitem-{$vo.id}" <eq name="vo.id" value="$model.id">class="am-active"</eq>>
+                            <td class="am-text-center">{$i}</td>
+                            <td>{$vo.workernum}</td>
+                            <td>{$vo.realname}</td>
+                            <td>
+                                <div class="am-dropdown  am-dropdown-up" data-am-dropdown>
+                                    <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+                                    <ul class="am-dropdown-content">
+                                        <li><a href="{$vo.id|P='User/useredit/',###}">1. 编辑</a></li>
+                                        <li><a href="javascript:" onclick="comfirmDelete('{$vo.id}', '{$vo.id|P='User/userdelete/',###}')">2. 删除</a></li>
+                                        <li><a href="{$vo.id|P='User/passwordedit/',###}">3. 修改密码</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            </tr>
+                        </volist>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 列表结束 -->
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<include file="include/footer" />
+<include file="include/includejs" />
+<script type="text/javascript" src="__PUBLIC__/js/deleteitem.js"></script>
+</body>
+</html>

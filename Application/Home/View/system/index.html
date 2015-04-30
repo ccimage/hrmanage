@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>系统基本信息设置</title>
+    <include file="include/header" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/amazeui.datetimepicker.css">
+</head>
+<body>
+
+<include file="include/toolbar" />
+
+<div class="am-cf admin-main">
+    <include file="include/sidemenu" />
+
+    <!-- content start -->
+    <div class="admin-content">
+
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><span>基本设置</span> / <small>settings</small></div>
+        </div>
+
+        <div class="am-g">
+			<form class="am-form" method="post" action="{:U('System/savesetting')}" enctype="multipart/form-data">
+				{$model['starttime']|outputTextItem='上班时间','datetime','required','starttime','* 格式00:00:00',10,###,'datepicker1'}
+                {$model['offtime']|outputTextItem='下班时间','datetime','required','offtime','* 格式00:00:00',10,###,'datepicker2'}
+                <include file="include/formbottompart" />
+            </form>
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<include file="include/footer" />
+<include file="include/includejs" />
+<include file="include/datetimejs" />
+<script type="text/javascript">
+$(function() {
+    $('#datepicker1').datetimepicker({format: 'hh:ii:00',language:'zh-CN',startView:1,maxView:1,autoclose:true});
+	$('#datepicker2').datetimepicker({format: 'hh:ii:00',language:'zh-CN',startView:1,maxView:1,autoclose:true});
+})
+</script>
+</body>
+</html>

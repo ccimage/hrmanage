@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>刷卡记录管理</title>
+    <include file="include/header" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/amazeui.datetimepicker.css">
+</head>
+<body>
+
+<include file="include/toolbar" />
+
+<div class="am-cf admin-main">
+    <include file="include/sidemenu" />
+
+    <!-- content start -->
+    <div class="admin-content">
+
+        <div class="am-cf am-padding">
+            <div class="am-fl am-cf"><span>刷卡记录</span> / <small>record</small></div>
+        </div>
+
+        <div class="am-g">
+            <form class="am-form" method="post" action="{:U('Record/importrecord')}" enctype="multipart/form-data">
+				{//$model['checkdate']|outputTextItem='刷卡日期','datetime','','checkdate','*',10,###,'datepicker'}
+                {//$model['checktime']|outputTextItem='刷卡时间','text','required','checktime','* 格式00:00:00',10,###}
+				{//$userList,$model['workernum']|outputSelectItem='刷卡人',###,'workernum',1}
+                <!--include file="include/formbottompart" /-->
+                
+				{$null|outputTextItem='选择记录文件','file','required','file','',0,###}
+				<if condition="$succstring">
+				<div class="am-g am-margin-top" id="form-error-layer">
+					<div class="am-u-sm-4 am-u-md-2 am-text-right">
+						&nbsp;
+					</div>
+					<div class="am-u-sm-8 am-u-md-4 am-text-center  am-u-end">
+						<span class="am-alert am-alert-success">
+							<i class="am-icon-check"></i>
+							<span>{$succstring}</span>
+						</span>
+					</div>
+				</div>
+				</if>
+				<div class="am-margin">
+					<button type="submit" class="am-btn am-btn-primary am-btn-xs">导入CSV</button>
+				</div>
+            </form>
+	
+            <!-- 列表开始 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf">刷卡记录列表</div>
+                <div id="collapse-panel-2" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>刷卡日期</th>
+                            <th>刷卡时间</th>
+							<th>刷卡人</th>
+                            <!--<th>操作</th>-->
+                        </tr>
+                        <volist name="list" id="vo">
+                            <tr id="dataitem-{$vo.id}" <eq name="vo.id" value="$model.id">class="am-active"</eq>>
+                                <td class="am-text-center">{$i + $pager['perpage'] * $pager['before']}</td>
+                                <td>{$vo.checkdate}</td>
+                                <td>{$vo.checktime}</td>
+								<td>{$vo.realname}</td>
+                                <!--
+                                <td>
+								<if condition="1 eq 0">
+                                    <div class="am-dropdown  am-dropdown-up" data-am-dropdown>
+                                        <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle><span class="am-icon-cog"></span> <span class="am-icon-caret-down"></span></button>
+                                        <ul class="am-dropdown-content">
+                                            <li><a href="{$vo.id|P='Record/recordedit/',###}">1. 编辑</a></li>
+                                            <li><a href="javascript:" onclick="comfirmDelete('{$vo.id}', '{$vo.id|P='Record/recorddelete/',###}')">2. 删除</a></li>
+                                        </ul>
+                                    </div>
+								</if>
+                                </td>
+            					-->
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+            <!-- 分页开始 -->
+                <ul class="am-pagination am-fr admin-content-pagination">
+                	<li class="am-disabled"><span>{$pager.current}/{$pager.pagecount}</span></li>
+              		<li <if condition='$pager.prev neq 1'> class="am-disabled" </if>><a href="{$pager.before|P='Record/record',###}">&laquo;</a></li>
+              		<volist name="pagelist" id="vo">
+              			<eq name="vo" value="$pager.current">
+              			<li class="am-active"> <a href="javascript:">{$vo}</a></li>
+              			<else />
+              			<li> <a href="{$vo|P='Record/record',###}">{$vo}</a></li>
+              			</eq>
+              		</volist>
+              		<li <if condition='$pager.next neq 1'> class="am-disabled" </if>><a href="{$pager.after|P='Record/record',###}">&raquo;</a></li>
+            	</ul>
+            <!-- 分页结束 -->
+            </div>
+            <!-- 列表结束 -->
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<include file="include/footer" />
+<include file="include/includejs" />
+<include file="include/datetimejs" />
+<script type="text/javascript">
+$(function() {
+    $('#datepicker').datepicker({format: 'yyyy-mm-dd',language:'zh-CN',autoclose:true});
+})
+</script>
+</body>
+</html>

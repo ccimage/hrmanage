@@ -1,0 +1,68 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title>首页</title>
+  <include file="include/header" />
+</head>
+<body>
+<include file="include/toolbar" />
+
+<div class="am-cf admin-main">
+  <!-- include sidemenu -->
+  <include file="include/sidemenu" />
+
+  <!-- content start -->
+  <div class="admin-content">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">首页</strong> / <small>dashboard</small></div>
+    </div>
+<!--
+    <ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
+      <li><a href="#" class="am-text-success"><span class="am-icon-btn am-icon-file-text"></span><br/>今日任务<br/>2300</a></li>
+      <li><a href="#" class="am-text-warning"><span class="am-icon-btn am-icon-briefcase"></span><br/>已指派<br/>308</a></li>
+      <li><a href="#" class="am-text-danger"><span class="am-icon-btn am-icon-recycle"></span><br/>已完成<br/>80082</a></li>
+      <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-user-md"></span><br/>业务员<br/>3000</a></li>
+    </ul>
+-->
+     <!-- 列表开始 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf">上周考勤汇总</div>
+                <div id="collapse-panel-2" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>迟到次数</th>
+                            <th>未打卡</th>
+                            <th>加班次数</th>
+							<th>刷卡人</th>
+                        </tr>
+                        <volist name="list" id="vo">
+                            <tr>
+                                <td class="am-text-center">{$i}</td>
+                                <td>{$vo.latecount}</td>
+                            	<td>{$vo.nocheckcount}</td>
+                                <td>{$vo.overtimecount}</td>
+								<td>{$vo.realname}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 列表结束 -->
+ 
+       
+ 
+    </div>
+  </div>
+  <!-- content end -->
+
+</div>
+
+<include file="include/footer"/>
+<include file="include/includejs" />
+</body>
+</html>

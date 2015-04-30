@@ -1,0 +1,41 @@
+<!-- sidebar start -->
+<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+        <ul class="am-list admin-sidebar-list">
+            {:outputSingleMenu('首页',U('Index/index'),'am-icon-home','menu-item-index')}
+            <!-- 系统菜单 -->
+            {:outputCollapseMenu('am-icon-cogs', 'menu-item-system','collapse-system', '系统设置',$selectitem,
+            //子菜单
+            getCollaseSubMenus(getSubItem('基本设置',U('System/index'),'am-icon-cog','subitem-sysconfig'))
+            )}
+
+            <!-- 数据管理菜单 -->
+            {:outputCollapseMenu('am-icon-database', 'menu-item-data','collapse-data', '数据管理',$selectitem,
+            //子菜单
+            getCollaseSubMenus(getSubItem('时间管理',U('Time/timerange'),'am-icon-calendar','subitem-timerange'),
+            getSubItem('人员管理',U('User/users'),'am-icon-users','subitem-users'),
+            getSubItem('记录管理',U('Record/record'),'am-icon-cloud','subitem-record'))
+            )}
+
+            <!-- 统计报表菜单 -->
+            {:outputCollapseMenu('am-icon-bar-chart', 'menu-item-report','collapse-statistic', '统计报表',$selectitem,
+            //子菜单
+            getCollaseSubMenus(getSubItem('迟到统计',U('Report/latetimeReport'),'am-icon-bell','subitem-latetime'),
+            getSubItem('加班统计',U('Report/overtimeReport'),'am-icon-laptop','subitem-overtime'),
+            getSubItem('未打卡统计',U('Report/nocheckReport'),'am-icon-times-circle-o','subitem-nocheck'),
+            getSubItem('次数统计',U('Report/countReport'),'am-icon-calculator','subitem-count'))
+			)}
+            {:outputSingleMenu('注销',U('Index/logout'),'am-icon-sign-out','')}
+        </ul>
+
+        <div class="am-panel am-panel-default admin-sidebar-panel">
+            <div class="am-panel-bd">
+                <p><span class="am-icon-bookmark"></span> 公告</p>
+                <p></p>
+                <div></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- sidebar end -->

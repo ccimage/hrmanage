@@ -1,0 +1,20 @@
+<if condition="$errorstring">
+    <div class="am-g am-margin-top" id="form-error-layer">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+            &nbsp;
+        </div>
+        <div class="am-u-sm-8 am-u-md-4 am-text-center  am-u-end">
+            <span class="am-alert am-alert-warning">
+                <i class="am-icon-warning"></i>
+                <span>{$errorstring}</span>
+            </span>
+        </div>
+    </div>
+</if>
+
+<div class="am-margin">
+    <button type="submit" class="am-btn am-btn-primary am-btn-xs">保存</button>
+    <button type="reset" class="am-btn am-btn-primary am-btn-xs">取消</button>
+
+</div>
+<input type="hidden" value="{$model['id']}" name="editId" />
