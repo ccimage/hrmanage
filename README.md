@@ -1,10 +1,10 @@
-# hrmanage
+# 考勤记录管理
 
 ## 上下班打卡记录管理和统计-使用thinkphp框架(3.x)
 
-### 数据库使用的是sqlite，以为比较简单，配置文件修改一下也可以支持mysql
+* 数据库使用的是sqlite，因为比较简单，配置文件修改一下也可以支持mysql
 
-#### Thinkphp里面修改了一个bug，是U方法中，参数的问题。按照[官方文档](http://document.thinkphp.cn/manual_3_2.html#action_bind)
+* Thinkphp里面修改了一个bug，是U方法中，参数的问题。按照[官方文档](http://document.thinkphp.cn/manual_3_2.html#action_bind)
     'URL_PARAMS_BIND_TYPE'  =>  1, // 设置参数绑定按照变量顺序绑定  
 query?id=1应该会生成query/1，但运行结果仍然是query/id/1，感觉是个bug，本人在U方法中做了修改。
 还有就是ThinkPHP/Library/Think/Model.class.php里面_facade方法修改为直接返回，否则没法提交数据，原因不清楚。
