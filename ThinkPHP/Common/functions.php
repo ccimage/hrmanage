@@ -1010,7 +1010,7 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
                 if('' === trim($val)) {
                     continue;
                 }
-                // 修改 zhangchuan， 兼容顺序参数模式
+                // 修改 ccimage， 兼容顺序参数模式
                 if(C('URL_PARAMS_BIND_TYPE')==1){
                     $url .= $depr . urlencode($val);
                 }
