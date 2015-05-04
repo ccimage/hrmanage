@@ -192,7 +192,7 @@ class ReportController extends ManageController {
     public function countReport($begin='',$end=''){
     	$this->HighlightMenu($this->mainmenu,'subitem-count');
     	
-    	$this->countReportBase('','');
+    	$this->countReportBase($begin,$end);
     	
     	//$this->assign('selector','Report/countReport');
         $this->assign("pagename", "次数");
