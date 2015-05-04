@@ -256,6 +256,7 @@ class ReportController extends ManageController {
 					}
 					if($maxiRange<$overMinute){
 						$modelPerson[''.$this->_overMinuteToTime($maxiRange).'后 ']++;
+						break;
 					}
 				}
 			}
