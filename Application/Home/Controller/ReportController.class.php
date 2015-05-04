@@ -42,6 +42,7 @@ class ReportController extends ManageController {
 					continue;
 				}
 				if($totalIndex>=($current-1)*$this->perPage && $totalIndex<($current)*$this->perPage){
+					$val1['checktime']=$h.':'.$m;
 					$alllist[] = $val1;  
 				}	
 				$totalIndex++;
