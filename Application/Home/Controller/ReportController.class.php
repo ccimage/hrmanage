@@ -172,7 +172,7 @@ class ReportController extends ManageController {
     	$lateArray = $this->_getLateTimeCount($begin,$end,$workerList);
     	$overArray = $this->_getOverTimeCount($begin,$end,$workerList);
     	$nocheckArray = $this->_getNoCheckCount($begin,$end,$workerList);
-    	
+ 
     	//将三种数据整理
     	for($i=0; $i<count($workerList);$i++){
     		if(count($lateArray[$i]) > 1 || count($nocheckArray[$i]) > 1){ // 有迟到或者未打卡的情况
@@ -224,7 +224,8 @@ class ReportController extends ManageController {
 					}
 					
 					if($maxiRange<$lateMinute){
-						$modelPerson[''.$maxiRange.'分钟 ']++;
+						$modelPerson[' 超过'.$maxiRange.'分钟 ']++;
+						break;
 					}
 				}
 			}
