@@ -13,7 +13,8 @@ class ReportController extends ManageController {
 		
     }
     //迟到情况统计
-    public function latetimeReport($begin='',$end='',$worker=0,$current=1){
+    public function latetimeReport($begin='',$end='',$worker=0,$current=1)
+    {
         $this->HighlightMenu($this->mainmenu,'subitem-latetime');
         $this->_assignUserList();
         
@@ -37,6 +38,10 @@ class ReportController extends ManageController {
         	$personList =  $this->_findFirstCheckOfDay($where);  
 			
 			foreach($personList as $key1=>$val1){
+				$checkdate = $this->_checkWorkDate($val1['checkdate']);
+				if(!$checkdate){
+					continue;
+				}
 				list($h,$m)=split(',',$val1['mint']);
 				if(($h*60 + $m) <= $latetime){
 					continue;
@@ -78,6 +83,10 @@ class ReportController extends ManageController {
         	$personList =  $this->_findLastCheckOfDay($where);  
 			
 			foreach($personList as $key1=>$val1){
+				$checkdate = $this->_checkWorkDate($val1['checkdate']);
+				if(!$checkdate){
+					continue;
+				}
 				list($h,$m)=split(',',$val1['maxt']);
 				if(($h*60 + $m) <= $overtime){
 					continue;
@@ -172,6 +181,8 @@ class ReportController extends ManageController {
     	$lateArray = $this->_getLateTimeCount($begin,$end,$workerList);
     	$overArray = $this->_getOverTimeCount($begin,$end,$workerList);
     	$nocheckArray = $this->_getNoCheckCount($begin,$end,$workerList);
+    	
+    	//dump($lateArray);
  
     	//将三种数据整理
     	for($i=0; $i<count($workerList);$i++){
@@ -181,9 +192,11 @@ class ReportController extends ManageController {
     			$person = M($this->tableUser)->where('workernum='.$worker)->getField('realname');
     			$late = $this->_getCountString($lateArray[$i]);
     			$over = $this->_getCountString($overArray[$i]);
+    			$afterCalc = $this->_caclLaterTime($lateArray[$i], $overArray[$i]);
     			$nocheck=$nocheckArray[$i]['nocheck'];
     			$nocheck=$nocheck?$nocheck.'次':'';
-    			$alllist[] = array('realname'=>$person, 'latecount'=>$late,'overtimecount'=>$over,'nocheckcount'=>$nocheck);
+    			$alllist[] = array('realname'=>$person, 'latecount'=>$late,
+    			'overtimecount'=>$over,'nocheckcount'=>$nocheck, 'totalcount'=>$afterCalc);
     		}
     	}
     	
@@ -212,6 +225,9 @@ class ReportController extends ManageController {
 			
 			$modelPerson = array('workernum'=>$worker);
 			foreach($personList as $key1=>$val1){
+			if(date("D",strtotime($val1['checkdate']))=='Sat' || date("D",strtotime($val1['checkdate']))=='Sun'){
+        			continue;
+        		}
 				list($h,$m)=split(',',$val1['mint']);
 				if(($h*60 + $m) <= $latetime){
 					continue;
@@ -244,6 +260,9 @@ class ReportController extends ManageController {
 			
 			$modelPerson = array('workernum'=>$worker);
 			foreach($personList as $key1=>$val1){
+				if(date("D",strtotime($val1['checkdate']))=='Sat' || date("D",strtotime($val1['checkdate']))=='Sun'){
+        			continue;
+        		}
 				list($h,$m)=split(',',$val1['maxt']);
 				if(($h*60 + $m) <= $overtime){
 					continue;
@@ -386,7 +405,7 @@ class ReportController extends ManageController {
         $minute = $overtime['minute'];
         return $hour * 60 + $minute;
     }
-    //获取每天的日期列表
+    //获取日期列表，文本形式
     private function _getDaylist($begin,$end){
     	$begintime = strtotime($begin);
     	$endtime = strtotime($end);
@@ -426,5 +445,38 @@ class ReportController extends ManageController {
     	$hour = sprintf('%02d', $hour);
     	$minute = sprintf('%02d', $minute);
     	return $hour.':'.$minute;
+    }
+    
+    //检查排除的日期，目前只排除周末
+    private function _checkWorkDate($datestr){
+    	$date = strtotime($datestr);
+    	$week = date('D',$date);
+
+    	if($week == 'Sat' || $week == 'Sun'){
+    		return false;
+    	}
+    	return true;
+    }  
+    //计算迟到次数的最终结果
+    //用加班次数抵扣迟到次数
+    private function _caclLaterTime($laterM, $overM){
+    	$over1 = intval($overM['19:00后 ']);
+    	$over2 = intval($overM['20:00后 ']);
+    	$over3 = intval($overM['22:00后 ']);
+    	
+    	$later1 = intval($laterM['15分钟 ']);
+    	$later2 = intval($laterM['30分钟 ']);
+    	$later3 = intval($laterM['60分钟 ']);
+    	$later4 = intval($laterM[' 超过60分钟 ']);
+    	
+    	$total3 = max(0, $later3 - $over3);
+    	$total2 = max(0, $later2 - $over2 - max(0, $over3-$later3));
+    	$total1 = max(0, $later1 - $over1 - max(0, $over2+$over3-$later2-$later3)); 
+    	
+    	$resultstr .= $total1 > 0 ? '15分钟内 '.$total1.' 次 <br />' : '';
+    	$resultstr .= $total2 > 0 ? '半小时内 '.$total2.' 次 <br />' : '';
+    	$resultstr .= $total3 > 0 ? '1小时内 '.$total3.' 次 <br />' : '';
+    	$resultstr .= $later4 > 0 ? '超1小时 '.$later4.' 次 <br />' : '';
+    	return $resultstr;
     }
 }

@@ -162,6 +162,9 @@ ul {
 .admin-content-pagination {
   margin-bottom: 0;
 }
+.admin-redtext{
+	color:#dd514c;
+}
 /*
 .admin-content-pagination li a {
   padding: 4px 8px;

@@ -40,14 +40,16 @@
                             <th>迟到次数</th>
                             <th>未打卡</th>
                             <th>加班次数</th>
+                            <th>抵扣后</th>
 							<th>刷卡人</th>
                         </tr>
                         <volist name="list" id="vo">
                             <tr>
                                 <td class="am-text-center">{$i}</td>
                                 <td>{$vo.latecount}</td>
-                            	<td>{$vo.nocheckcount}</td>
+                            	<td class='admin-redtext'>{$vo.nocheckcount}</td>
                                 <td>{$vo.overtimecount}</td>
+                                <td class='admin-redtext'>{$vo.totalcount}</td>
 								<td>{$vo.realname}</td>
                             </tr>
                         </volist>

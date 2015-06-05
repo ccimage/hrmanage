@@ -87,49 +87,39 @@ class RecordController extends ManageController {
 			exit;
 		}
 		$handle = fopen($filename, 'r');
-		$result = $this->input_csv($handle); //解析csv
-		$len_result = count($result);
-		if($len_result==0){
-			echo '没有任何数据！';
-			exit;
-		}
-		//dump($result);
+		$len_result = 0;
+		while(! feof($handle))
+  		{
+  			$len_result += $this->importOneLine(fgets($handle));
+  		}
+  		fclose($handle); //关闭指针
 
-		$id=M($this->tableRecord)->getField("max(id)") + 1;
-		$successCount = 0;
-		for ($i = 0; $i < $len_result; $i++) { //循环获取各字段值
-			$worker = $result[$i][0]; 
-			$record = $result[$i][1];
-			list($date, $time) = split(' ', $record);
-			$vartime = date('H:i:s',strtotime($time));
-			if($this->checkduplicate($worker, $date, $vartime)){
-				continue;
-			}			
-			$data["workernum"]=$worker;
-			$data["checkdate"]=$date;
-			
-			$data["checktime"]=$vartime;
-			$data["id"]=$i+$id;
-			M($this->tableRecord)->add($data);
-			$successCount++;
-		}
-		fclose($handle); //关闭指针
-
-		$this->assign('succstring', '导入成功，增加了'.$successCount.'条记录');
+		$this->assign('succstring', '导入成功，增加了'.$len_result.'条记录');
 		$this->index();
 	}
-	private function input_csv($handle) {
-		$out = array ();
-		$n = 0;
-		while ($data = fgetcsv($handle, 1000, ',')) {
-			$num = count($data);
-			for ($i = 0; $i < $num; $i++) {
-				$out[$n][$i] = $data[$i];
-			}
-			$n++;
-		}
-		return $out;
+	
+	private function importOneLine($line){
+		$id=M($this->tableRecord)->getField("max(id)") + 1;
+		$successCount = 0;
+ 
+ 		$result = explode('	', $line,4);
+		$worker = intval($result[0]).''; 
+		$record = $result[1];
+		list($date, $time) = split(' ', $record);
+		$vartime = date('H:i:s',strtotime($time));
+		if($this->checkduplicate($worker, $date, $vartime)){
+			return 0;
+		}			
+		$data["workernum"]=$worker;
+		$data["checkdate"]=$date;
+			
+		$data["checktime"]=$vartime;
+		$data["id"]=$id;
+		M($this->tableRecord)->add($data);
+		$successCount=1;
+		return $successCount;
 	}
+	 
 	private function checkduplicate($worker, $date, $time){
 		$where = ' workernum='.$worker.' and checkdate=\''.$date.'\' and checktime=\''.$time.'\'';        
         $duplicate = M($this->tableRecord)->where($where)->find();
