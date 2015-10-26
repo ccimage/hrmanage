@@ -14,7 +14,9 @@ class RecordController extends ManageController {
     
     public function record($current=1){
         $this->HighlightMenu($this->mainmenu,'subitem-record');
-		$userList = M($this->tableUser)->field("workernum as value,realname as display")->select();
+		$userList = M($this->tableUser)->field("workernum as value,realname as display")
+        //->where(' disable=0')
+        ->select();
         $this->assign("userList", $userList);
         
     	$joinStr = "hr_employee as a on hr_checkrecord.workernum = a.workernum";

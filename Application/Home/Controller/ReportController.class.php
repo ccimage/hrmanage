@@ -343,7 +343,7 @@ class ReportController extends ManageController {
         return $lastfriday;
     }
     private function _assignUserList(){
-    	$userList = M($this->tableUser)->field("workernum as value,realname as display")->select(' limit 0,15');
+    	$userList = M($this->tableUser)->field("workernum as value,realname as display")->where(' disable=0')->select();
         $userList[] = array('value'=>'0','display'=>'全部');
         sort($userList);
         $this->assign("userList", $userList);
@@ -359,12 +359,13 @@ class ReportController extends ManageController {
         $this->assign("enddate",$end);
         $this->assign("workernum",$worker);
         
-        $where=(strLen($worker)>0 && $worker>0)?' workernum='.$worker:'';
+        $where=(strLen($worker)>0 && $worker>0)?' workernum='.$worker : ' disable=0';
         $workerList = M($this->tableUser)->field('workernum')->where($where)->select();
         return array($begin,$end,$workerList);
     }
     private function _getWhere($begin,$end,$worker){
     	$where = 'e.workernum='.$worker;
+        $where.=' and e.disable=0';
         $where.=' and strftime(\'%Y%m%d\',checkdate)>=strftime(\'%Y%m%d\',\''.$begin.'\')';
         $where.=' and strftime(\'%Y%m%d\',checkdate)<=strftime(\'%Y%m%d\',\''.$end.'\')';
         return $where;

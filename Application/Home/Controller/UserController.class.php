@@ -12,7 +12,7 @@ class UserController extends ManageController {
     
     public function users(){
         $this->HighlightMenu($this->mainmenu,'subitem-users');
-        $alllist = M($this->tableUsers)->where(' workernum<>\'admin\'')->select();
+        $alllist = M($this->tableUsers)->where(' workernum<>\'admin\' and disable==0')->select();
         $this->assign("list",$alllist);
         $this->display(T("Data:users"));
     }
@@ -43,6 +43,7 @@ class UserController extends ManageController {
         $id = trim(I('post.editId'));
         $datamodel = $this->FillDataModel(array('workernum','password','realname'));
         $datamodel["password"] = encrypt($pwd1);
+        $datamodel["disable"] = 0;
         if($this->CheckDuplicateField('workernum',$datamodel['workernum'],$id,'工号',$table)){
             $this->users();
             return;
@@ -95,8 +96,11 @@ class UserController extends ManageController {
             $this->display('Index/error');
             return;
         }
-        M($this->tableUsers)->where('id='.$id)->delete();
-
+        $datamodel = M($this->tableUsers)->where('id='.$id)->find();
+        if($datamodel){
+            $datamodel["disable"] = 1;
+            M($this->tableUsers)->save($datamodel);
+        }
         $this->users();
     }
     public function passwordedit($id=0){
