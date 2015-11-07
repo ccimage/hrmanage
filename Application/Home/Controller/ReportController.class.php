@@ -364,7 +364,17 @@ class ReportController extends ManageController {
         return array($begin,$end,$workerList);
     }
     private function _getWhere($begin,$end,$worker){
-    	$where = 'e.workernum='.$worker;
+        if(!is_numeric($worker)){
+            $this->_empty();
+            return;
+        }
+        if($worker <= 0){
+            $where = ' 1=1 ';
+        }
+        else{
+            $where = 'e.workernum='.$worker;
+        }
+    	
         $where.=' and e.disable=0';
         $where.=' and strftime(\'%Y%m%d\',checkdate)>=strftime(\'%Y%m%d\',\''.$begin.'\')';
         $where.=' and strftime(\'%Y%m%d\',checkdate)<=strftime(\'%Y%m%d\',\''.$end.'\')';
@@ -479,5 +489,32 @@ class ReportController extends ManageController {
     	$resultstr .= $total3 > 0 ? '1小时内 '.$total3.' 次 <br />' : '';
     	$resultstr .= $later4 > 0 ? '超1小时 '.$later4.' 次 <br />' : '';
     	return $resultstr;
+    }
+    
+    //---------------
+    //数据过滤
+	public function datalist($begindate=null, $enddate=null, $workernum=0,$current=1)
+    {
+        if(!is_numeric($workernum)){
+            $this->_empty();
+            return;   
+        }
+        if(!$begindate){
+        	$begindate=$this->_defaultBeginDate();;
+        }
+        if(!$enddate){
+        	$enddate=$this->_defaultEndDate();
+        }
+        $this->HighlightMenu($this->mainmenu,'subitem-datalist');
+		$this->_assignUserList();
+        
+    	$joinStr = "hr_employee as e on c.workernum = e.workernum";
+    	$whereStr= $this->_getWhere($begindate,$enddate,$workernum);
+         
+    	$order='checkdate desc,workernum'; 
+    	$this->ShowPageView($this->tableRecord, $joinStr, $whereStr,$current, $this->perPage,$order);
+         
+        $this->assign('model',array("begindate"=>$begindate,"enddate"=>$enddate,"workernum"=>$workernum)); 
+        $this->display(T('Report:datalist'));
     }
 }

@@ -99,7 +99,7 @@ class RecordController extends ManageController {
 		$this->assign('succstring', '导入成功，增加了'.$len_result.'条记录');
 		$this->index();
 	}
-	
+    
 	private function importOneLine($line){
 		$id=M($this->tableRecord)->getField("max(id)") + 1;
 		$successCount = 0;

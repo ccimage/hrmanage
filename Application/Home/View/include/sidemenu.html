@@ -20,7 +20,9 @@
             <!-- 统计报表菜单 -->
             {:outputCollapseMenu('am-icon-bar-chart', 'menu-item-report','collapse-statistic', '统计报表',$selectitem,
             //子菜单
-            getCollaseSubMenus(getSubItem('迟到统计',U('Report/latetimeReport'),'am-icon-bell','subitem-latetime'),
+            getCollaseSubMenus(
+            getSubItem('数据明细',U('Report/datalist'),'am-icon-list-alt','subitem-datalist'),
+            getSubItem('迟到统计',U('Report/latetimeReport'),'am-icon-bell','subitem-latetime'),
             getSubItem('加班统计',U('Report/overtimeReport'),'am-icon-laptop','subitem-overtime'),
             getSubItem('未打卡统计',U('Report/nocheckReport'),'am-icon-times-circle-o','subitem-nocheck'),
             getSubItem('次数统计',U('Report/countReport'),'am-icon-calculator','subitem-count'))

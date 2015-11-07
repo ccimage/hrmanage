@@ -60,7 +60,7 @@
                 <!-- 分页开始 -->
                 <ul class="am-pagination am-fr admin-content-pagination">
                 	<li class="am-disabled"><span>{$pager.current}/{$pager.pagecount}</span></li>
-              		<li <if condition='$pager.prev neq 1'> class="am-disabled" </if>><a href="{$selecor,$pager.before|P}">&laquo;</a></li>
+              		<li <if condition='$pager.prev neq 1'> class="am-disabled" </if>><a href="{$selecor,$begindate,$enddate,$workernum,$pager.before|P}">&laquo;</a></li>
               		<volist name="pagelist" id="vo">
               			<eq name="vo" value="$pager.current">
               			<li class="am-active"> <a href="javascript:">{$vo}</a></li>
@@ -68,7 +68,7 @@
               			<li> <a href="{$selecor,$begindate,$enddate,$workernum,$vo|P}">{$vo}</a></li>
               			</eq>
               		</volist>
-              		<li <if condition='$pager.next neq 1'> class="am-disabled" </if>><a href="{$selecor,$pager.after|P}">&raquo;</a></li>
+              		<li <if condition='$pager.next neq 1'> class="am-disabled" </if>><a href="{$selecor,$begindate,$enddate,$workernum,$pager.after|P}">&raquo;</a></li>
             	</ul>
             <!-- 分页结束 -->
             </div>
