@@ -374,14 +374,14 @@ class ReportController extends ManageController {
     }
     //迟到开始计算，也就是上班时间
     private function _getLateTime(){
-    	$latetime = M($this->tableSetting)->limit('0,1')->field('strftime(\'%H\',s.starttime) hour, strftime(\'%M\',s.starttime) minute')->find();
+    	$latetime = M($this->tableSetting)->limit('0,1')->field('DATE_FORMAT(s.starttime, \'%H\') hour, DATE_FORMAT(s.starttime, \'%M\') minute')->find();
     	$hour = $latetime['hour'];
         $minute = $latetime['minute'];
         return $hour * 60 + $minute;
     }
     //加班时间开始计算，也就是下班时间
     private function _getOverTime(){
-    	$overtime = M($this->tableSetting)->limit('0,1')->field('strftime(\'%H\',s.offtime) hour, strftime(\'%M\',s.offtime) minute')->find();
+    	$overtime = M($this->tableSetting)->limit('0,1')->field('DATE_FORMAT(s.offtime, \'%H\') hour, DATE_FORMAT(s.offtime, \'%M\') minute')->find();
         $hour = $overtime['hour'];
         $minute = $overtime['minute'];
         return $hour * 60 + $minute;
